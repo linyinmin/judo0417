@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>柔道隊營養指南</title>
+    <style>
+        :root {
+            --primary-color: #1a237e; /* 深藍色，代表柔道服 */
+            --secondary-color: #2196f3; /* 亮藍色，活潑的色調 */
+            --accent-color: #ffd700; /* 金色，代表榮譽 */
+            --text-color: #333;
+            --background-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+            padding-left: 10%;
+            padding-right: 10%;
+            position: relative;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .header h1 {
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        .highlight {
+            color: var(--secondary-color);
+        }
+
+        .highlight-red {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .nutritionist-info {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .nutritionist-info p {
+            margin: 5px 0;
+        }
+
+        .nav-button {
+            position: fixed;
+            right: 20px;
+            bottom: 0;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .nav-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .nav-menu.active ~ .nav-button {
+            right: 320px;
+        }
+
+        .nav-menu.active ~ .nav-button:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-menu {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: white;
+            padding: 20px;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .nav-menu ul {
+            list-style-type: none;
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 10px;
+        }
+
+        .nav-menu ul::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .nav-menu ul::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .nav-menu ul::-webkit-scrollbar-thumb {
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .nav-menu ul::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        .nav-menu li {
+            margin: 10px 0;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .content-section {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .content-section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .content-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .image-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .image-caption {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .content-grid img {
+            margin: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 998;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .content-table th,
+        .content-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            color: var(--text-color);
+            word-wrap: break-word;
+            min-width: 120px;
+        }
+
+        .content-table td:first-child {
+            width: 20%;
+            font-weight: bold;
+        }
+
+        .content-table td:last-child {
+            width: 80%;
+        }
+
+        .content-table th {
+            background-color: #e3f2fd; /* 淺藍色背景 */
+            color: var(--text-color);
+        }
+
+        .content-table tr:nth-child(even) {
+            background-color: #f5f9ff; /* 更淺的藍色背景 */
+        }
+
+        .content-table tr:hover {
+            background-color: #e8f4ff; /* 懸停時的淺藍色 */
+        }
+
+        .content-table .header-row {
+            background-color: #e3f2fd; /* 淺藍色背景 */
+            color: var(--text-color);
+        }
+
+        .content-section pre {
+            white-space: pre-wrap;
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .content-table td.highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .content-section {
+                padding: 15px;
+            }
+
+            .nav-menu {
+                width: 250px;
+                right: -250px;
+            }
+
+            .content-section img {
+                margin: 10px 0;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .content-table th,
+            .content-table td {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .content-table td:first-child {
+                width: 35%;
+            }
+
+            .content-table td:last-child {
+                width: 65%;
+            }
+            
+            .nav-menu.active ~ .nav-button {
+            right: 280px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-table td:first-child {
+                width: 40%;
+            }
+
+            .content-table td:last-child {
+                width: 60%;
+            }
+
+
+        }
+
+        .content-table.three-columns td:first-child {
+            width: 20%;
+        }
+
+        .content-table.three-columns td:nth-child(2) {
+            width: 40%;
+        }
+
+        .content-table.three-columns td:last-child {
+            width: 40%;
+        }
+
+                .content-table.three-columns td:first-child {
+            width: 20%;
+        }
+
+        .content-table.three-columns td:nth-child(2) {
+            width: 40%;
+        }
+
+        .content-table.three-columns td:last-child {
+            width: 40%;
+        }
+
+        .content-table.three-columns tr:nth-child(even) {
+            background-color: #f5f9ff; /* 更淺的藍色背景 */
+        }
+
+        .content-table.three-columns tr:hover {
+            background-color: #e8f4ff; /* 懸停時的淺藍色 */
+        }
+
+        /* 為section6的表格添加特定樣式 */
+        #section6 .content-table.three-columns td:nth-child(2) {
+            background-color: #e8f5e9 !important; /* 淺綠色背景 */
+        }
+
+        #section6 .content-table.three-columns td:last-child {
+            background-color: #ffebee !important; /* 淺紅色背景 */
+        }
+
+        /* 確保懸停效果覆蓋特定顏色 */
+        #section6 .content-table.three-columns tr:hover td:nth-child(2) {
+            background-color: #d4edda !important; /* 懸停時的淺綠色 */
+        }
+
+        #section6 .content-table.three-columns tr:hover td:last-child {
+            background-color: #f8d7da !important; /* 懸停時的淺紅色 */
+        }
+
+        /* 覆蓋section6表格的斑馬紋樣式 */
+        #section6 .content-table.three-columns tr:nth-child(even) td:nth-child(2) {
+            background-color: #e8f5e9 !important; /* 淺綠色背景 */
+        }
+
+        #section6 .content-table.three-columns tr:nth-child(even) td:last-child {
+            background-color: #ffebee !important; /* 淺紅色背景 */
+        }
+
+        /* 移除section6表格的通用懸停效果 */
+        #section6 .content-table.three-columns tr:hover {
+            background-color: transparent !important;
+        }
+
+        /* 確保section6表格的標題行樣式正確 */
+        #section6 .content-table.three-columns .header-row th {
+            background-color: #e3f2fd !important; /* 淺藍色背景 */
+            color: var(--text-color) !important;
+        }
+
+        .nav-link {
+            display: block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 10px auto;
+            width: fit-content;
+        }
+
+        .nav-link:hover {
+            background-color: var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>柔道營養指南</h1>
+        <div class="nutritionist-info">
+            <p>運動科學處 曾怡鈞營養師製  |  版本：2024/01/24</p>
+        </div>
+    </div>
+
+    <a href="nutrition_info.html" class="nav-link">觀看柔道營養品指南</a>
+
+    <div class="overlay" onclick="toggleNav()"></div>
+    
+    <div class="nav-menu">
+        <h2>目錄</h2>
+        <ul id="toc">
+            <!-- 目錄將由JavaScript自動生成 -->
+        </ul>
+    </div>
+
+    <button class="nav-button" onclick="toggleNav()">☰</button>
+
+    <div class="content-section" id="section1">
+        <h2>比賽常用營養品</h2>
+        <p>能量補給：威德能量果凍、味之素胺基酸能量凍、能量果膠、耐力能量飲。<br>
+            加速能量代謝：動能（或拜維佳 B 群發泡錠）。<br>
+            肌肉恢復：味之素胺基酸 Gold 或 Pro、32Gi REGO 恢復蛋白粉包、戰神 Mars 單包乳清<br>
+            電解質補給：銳速水動能電解質液、Go hydro Tablet 電解質發泡錠、大塚 BCAA 粉末包、鎂溶
+            易、寶礦力粉末包。<br>
+            專項表現促進：ß 丙胺酸、32Gi 咖啡因片、小蘇打粉。<br>
+            疲勞恢復：葡萄籽（抗發炎）、綠茶素（抗氧化）、魚油（抗發炎）、薑黃素（抗發炎&抗氧化）<br></p>
+        
+        <!-- 圖片示例 -->
+        <!-- <div class="image-container">
+            <img src="path/to/your/image.jpg" alt="營養品示意圖">
+            <p class="image-caption">圖1：常用營養品示意圖</p>
+        </div> -->
+
+        <!-- 多圖網格示例 -->
+        <!-- <div class="content-grid">
+            <div class="image-container">
+                <img src="path/to/image1.jpg" alt="營養品1">
+                <p class="image-caption">圖2：能量補給品</p>
+            </div>
+            <div class="image-container">
+                <img src="path/to/image2.jpg" alt="營養品2">
+                <p class="image-caption">圖3：電解質補給品</p>
+            </div>
+        </div> -->
+    </div>
+
+    <div class="content-section" id="section2">
+        <h2>咖啡因片及咖啡因錠：提高賽場上專注力</h2>
+        <p><strong class="highlight">一片 60 毫克，建議劑量：3-6 毫克/公斤。</strong>建議分段攝取，若低劑量就有效，不需要使用高劑量。<br>
+            <strong>試用模式<br></strong>
+            體重 60 公斤，3 毫克*60 公斤=180 毫克。180 毫克/60 毫克=3 片。（6 毫克/公斤=6 片）<br>
+            找一個強度很高的模擬賽或訓練，訓練前 30 分鐘吃 1 片，熱身完吃 1 片。看看吃兩片有沒有
+            覺得體感不錯，若無感可再追加一片，最多追加到 6 片。若比賽有分上下午場，建議早上三
+            片、下午三片，整日不超過 6 片。<br>
+            咖啡因錠，每錠就有 200 mg 劑量，如果咖啡因片需要吃到 3~4 片，或是比賽當天比較有機會
+            挺進決賽，可以一開始就吃咖啡因錠，中間就可以節省補給的時間。但一日不要超過 2 錠。</p>
+    </div>
+
+    <div class="content-section" id="section3">
+        <h2>小蘇打粉：提高無氧緩衝能力、高強度的耐受能力</h2>
+        <p>
+            建議劑量：0.2~0.5 克/公斤。<br>
+            <strong>試用模式</strong>
+            <li>單次使用、單次有效，建議先從小劑量開始嘗試並適應副作用。</li>
+            <li>劑量較大時，將劑量分成 2-3 次搭配大量的水服用。</li>
+            例如：<br>
+            <li>高強度訓練前 2 個小時，攝取一半的劑量加大量的水。</li>
+            <li>高強度訓練前 1 個小時，攝取剩下的一半膠囊加大量的水。</li>
+            範例：<br>
+                    <!-- 圖片示例 -->
+        <div class="image-container">
+            <img src="images/example-1.png" alt="小蘇打粉攝取">
+            <p class="image-caption">圖：小蘇打粉攝取</p>
+        </div>
+            </p>
+    </div>
+
+    <div class="content-section" id="section4">
+        <h2>賽前急速減重方式</h2>
+        <p>
+            建議劑量：<span class="highlight-red">0.2~0.5 克/公斤</span>。<br>
+            試用模式<br>
+            單次使用、單次有效，建議先從小劑量開始嘗試並適應副作用。<br>
+            劑量較大時，將劑量分成 2-3 次搭配大量的水服用。<br>
+            例如：<br>
+            高強度訓練前 2 個小時，攝取一半的劑量加大量的水。<br>
+            高強度訓練前 1 個小時，攝取剩下的一半膠囊加大量的水。<br>
+            範例：<br>
+        </p>
+
+        <table class="content-table">
+            <tr class="header-row">
+                <th colspan="2">賽前急速減重方式</th>
+            </tr>
+            <tr>
+                <td><ins>低醣飲食</ins><br>(賽前 5~7 天)</td>
+                <td>如果體重超過量級 <span class="highlight-red">5%</span>，賽前 5~7 天減少醣類攝取（包含全榖雜糧類、水果
+                    類、乳製品），正餐只攝取低脂肉類跟蔬菜。</td>
+            </tr>
+            <tr>
+                <td><ins>  低纖維飲食</ins><br>
+                    賽前 3 天半<br>
+                    （48~96 小時）</td>
+                <td><li>如果體重超過量級 <span class="highlight-red">5%</span>，賽前 3 天半（48~96 小時），減少攝取高纖食
+                        物，完全不吃蔬菜，直到過磅（只剩下肉類了，但要低脂的肉）。</li>
+                    <li>若過磅前一天體重低於量級體重但很接近，過磅前 24 小時集中攝取重量
+                        極輕的醣類食物（避開含水量高的，如水果）。</li></td>
+            </tr>
+            <tr>
+                <td><ins>低鈉飲食</ins><br>
+                    賽前 2-3 天<br>
+                    （48~72 小時）</td>
+                <td><li>賽前 2-3 天（48~72 小時），減少飲食中的鈉攝取量直到過完磅，目標是
+                        鈉攝取量<span class="highlight-red"><500 毫克/天</span>，也就是一天最多只能吃 1.27 公克的鹽（約等於
+                        1/4 茶匙）。</li>
+                    <li>若過磅前一天體重低於量級體重但很接近，過磅前 24 小時集中攝取重量
+                        極輕的醣類食物（避開含水量高的，如水果）。</li></td>
+            </tr>
+            <tr>
+                <td><ins>限制水分</ins><br>
+                    過磅前 1~1 天半<br>
+                    （0~36 小時）</td>
+                <td><li>限制水分攝取，盡量不喝水，非常口渴時，可以口含冰塊來減少口渴感。</li>
+                    <li>過磅前 1 天半（24~36 小時），利用訓練來促進主動排汗，可穿逼汗衣。</li>
+                    <li>過磅前 1 天（0~24 小時），利用熱水浴、三溫暖來達到被動脫水，但以被動脫水流失的水份不應超過體重的 <span class="highlight-red">2%</span>（例如 60 公斤重的人，只可以靠以熱蒸出汗，流汗 1.2 公斤）。並且在逼完汗後應該採取降溫措施，以減少體
+                        溫上升對運動表現的負面影響。</li></td>
+            </tr>
+        </table>
+        <span class="highlight-red">*有減重需求者，賽前訓練後不要補充高蛋白，訓練後只能補充味之素 Gold 或 Pro 1 條。</span>
+    </div>
+
+    <div class="content-section" id="section5">
+        <h2>賽前減重時程表</h2>
+        <p>
+            <!-- 圖片示例 -->
+        <div class="image-container">
+            <img src="images/example-2.png" alt="賽前減重時程表">
+            <p class="image-caption">圖：賽前減重時程表</p>
+        </div>
+            </p>
+    </div>
+
+    <div class="content-section" id="section6">
+        <h2>附表一、低纖維飲食表</h2>
+        <table class="content-table three-columns">
+            <tr class="header-row">
+                <th>食品種類</th>
+                <th>可食</th>
+                <th>忌食</th>
+            </tr>
+            <tr>
+                <td>乳品類</td>
+                <td style="background-color: #e8f5e9;">鮮乳、優酪乳、優格、保久乳、起司<br>
+                    ※攝取過多容易產氣，應留意份量</td>
+                <td style="background-color: #ffebee;">含纖維質及果寡糖之乳飲品</td>
+            </tr>
+            <tr>
+                <td>蛋類 肉類</td>
+                <td style="background-color: #e8f5e9;">各種蛋類，如蒸蛋、炒蛋、滑蛋<br>
+                    各種肉類：牛、豬、羊、禽肉、海鮮</td>
+                <td style="background-color: #ffebee;">避免質地太硬的煎蛋、滷製過久的鐵蛋<br>
+                    避免未去筋之肉類，雞肫、鴨肫、牛筋</td>
+            </tr>
+            <tr>
+                <td>豆類及豆製品</td>
+                <td style="background-color: #e8f5e9;">加工精緻的豆製品，如豆漿(濾渣)、豆腐皮、豆花、豆腐、豆干
+                    </td>
+                <td style="background-color: #ffebee;">未加工的豆類，如毛豆、黃豆、黑豆</td>
+            </tr>
+            <tr>
+                <td>蔬菜類</td>
+                <td style="background-color: #e8f5e9;">各種過濾蔬菜汁，去皮、去子的成熟瓜類，如冬瓜、大黃瓜、瓢瓜、櫛瓜<br>
+                    嫩葉菜類，如菠菜、莧菜、青江菜<br>
+                    低纖蔬菜，如大番茄、石蓮花</td>
+                <td style="background-color: #ffebee;">粗纖維多的蔬菜，如竹筍、芹菜、牛蒡、地瓜葉及蔬菜的梗、莖及老葉<br>
+                    易產氣蔬菜，如綠白花椰菜、紅白蘿蔔、高麗菜、青椒、洋蔥、大小白菜、蘆筍</td>
+            </tr>
+            <tr>
+                <td>水果類</td>
+                <td style="background-color: #e8f5e9;">各種過濾後的果汁，完全熟透(去皮、去籽、去心)哈密瓜、西瓜、葡萄、香瓜、芒果、荔枝、李子、蓮霧、鳳梨、枇杷、木瓜、蘋果、香蕉</td>
+                <td style="background-color: #ffebee;">未過濾的果汁，黑棗、紅棗、棗子、百香果、芭樂、柿子、榴槤、奇異果、釋迦、西洋梨、青木瓜、柳橙<br>
+                    果乾類，如柿餅、龍眼乾、蜜餞、芒果乾</td>
+            </tr>
+            <tr>
+                <td>全榖雜糧類</td>
+                <td style="background-color: #e8f5e9;">精製的穀類及其製品，如白米 飯、稀飯、白麵條、白吐司、白饅頭、米粉、冬粉</td>
+                <td style="background-color: #ffebee;">全榖類及其製品，如米糠、糙米、麥麩、
+                    燕麥、玉米、全麥麵包、雜糧麵包。<br>
+                    根莖類，如甘薯、芋頭 乾豆類，如綠豆、紅豆、花豆
+                    </td>
+            </tr>
+            <tr>
+                <td>油脂 & 堅果種子類</td>
+                <td style="background-color: #e8f5e9;">各種植物油、動物油及其製品。</td>
+                <td style="background-color: #ffebee;">堅果類，如奇亞籽、亞麻籽、芝麻、開心果、腰果、花生、核桃、杏仁</td>
+            </tr>
+            <tr>
+                <td>點心類</td>
+                <td style="background-color: #e8f5e9;">海綿蛋糕、無纖維餅乾、茶飲、果凍</td>
+                <td style="background-color: #ffebee;">含乾果蛋糕及派、含纖茶飲、含纖汽水、木耳飲、愛玉、寒天、沙其瑪、綠豆糕、八寶粥、燕麥棒
+                    </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="content-section" id="section7">
+        <h2>附表二、低鈉飲食表</h2>
+        <table class="content-table three-columns">
+            <tr class="header-row">
+                <th>食物種類</th>
+                <th>可食</th>
+                <th>忌食</th>
+            </tr>
+            <tr>
+                <td>乳品類</td>
+                <td style="background-color: #e8f5e9;">鮮乳、優酪乳、優格、保久乳<br>
+                    ※每日不超過二杯</td>
+                <td style="background-color: #ffebee;">各種起司、乳酪、調味乳飲品</td>
+            </tr>
+            <tr>
+                <td>魚蛋肉類</td>
+                <td style="background-color: #e8f5e9;">淡水魚肉，新鮮肉、家禽類及蛋類</td>
+                <td style="background-color: #ffebee;">海鮮類，如海水魚、蝦蟹、貝類 加鹽或燒製食品，如火腿、香腸、臘肉、牛豬肉乾、燻雞、 茶鵝、肉
+                    (魚)鬆、鹹魚、魚乾、鹹蛋、皮蛋、滷味、火鍋料<br>
+                    罐頭食品，如肉醬、肉燥、沙丁魚、綺魚、鰻魚罐頭<br>
+                    速食品及其他製品，如炸雞、漢堡、餡餅、各式肉丸、魚丸
+                    </td>
+            </tr>
+            <tr>
+                <td>豆類及豆製品</td>
+                <td style="background-color: #e8f5e9;">新鮮豆類，如毛豆、黑豆、紅綠豆<br>
+                    豆製品，如傳統豆腐、嫩豆腐、豆漿、豆花、豆干、素雞
+                    </td>
+                <td style="background-color: #ffebee;">醃製、罐製、滷製的成品，如加味豆乾、豆豉、筍豆、豆腐乳<br>
+                    調味加工製品，如鹹豆漿、雞蛋豆腐、百頁豆腐</td>
+            </tr>
+            <tr>
+                <td>蔬菜類</td>
+                <td style="background-color: #e8f5e9;">新鮮蔬菜及自製蔬菜汁</td>
+                <td style="background-color: #ffebee;">海藻類，如海帶、海帶結、海苔、裙帶菜、紫菜<br>
+                    醃製蔬菜，如榨菜、酸菜、泡菜、鹹菜、梅干菜、筍乾、雪裡紅<br>
+                    各種加工蔬菜汁、加鹽蔬菜罐頭
+                    </td>
+            </tr>
+            <tr>
+                <td>水果類</td>
+                <td style="background-color: #e8f5e9;">新鮮水果及自製果汁</td>
+                <td style="background-color: #ffebee;">加鹽果乾類、蜜餞 各種罐頭水果、加工果汁及果汁粉</td>
+            </tr>
+            <tr>
+                <td>全榖雜糧類</td>
+                <td style="background-color: #e8f5e9;">米飯、麥片、玉米、薏仁、紅藜、 冬粉、米粉、自製麵食</td>
+                <td style="background-color: #ffebee;">西點類，如鹹麵包、蛋糕、蛋捲、奶酥、蘇打餅乾、甜鹹餅乾、加工麵製品，如麵線、油麵、雞蛋麵、蕎麥麵、拉麵、意麵、水餃皮、餛飩皮、中式油條、燒餅<br>
+                    速食麵類，如泡麵、速食米(冬)粉、雞絲麵、鍋燒意麵、烏龍麵
+                    </td>
+            </tr>
+            <tr>
+                <td>油脂 & 堅果種子類</td>
+                <td style="background-color: #e8f5e9;">植物油，如大豆油、橄欖油、紅花籽油等原味堅果，如腰果、松子、核桃、夏威夷豆、葵瓜子、花生
+                    </td>
+                <td style="background-color: #ffebee;">奶油、瑪琪琳、沙拉醬、蛋黃醬、 花生醬、開心果、調味核果類</td>
+            </tr>
+            <tr>
+                <td>調味品</td>
+                <td style="background-color: #e8f5e9;">蔥、薑、蒜、白糖、白醋、肉桂、 五香、八角、香草片、辣椒、胡椒</td>
+                <td style="background-color: #ffebee;">味精、烏醋、蕃茄醬、胡椒鹽、梅子粉、豆瓣醬、沙拉醬、沙茶醬、醬油、蠔油、蝦醬、魚露、 甜麵醬、豆豉、味噌、芥末醬、咖哩塊
+                    </td>
+            </tr>
+            <tr>
+                <td>其他</td>
+                <td style="background-color: #e8f5e9;"></td>
+                <td style="background-color: #ffebee;">運動飲料、零卡果凍、雞精、菜湯、肉湯、大骨湯</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="content-section" id="section8">
+        <h2>過磅後營養補充模式</h2>
+        <table class="content-table three-columns">
+            <tr class="header-row">
+                <th>前一天下午過磅後</th>
+                <th>脫水多的人</th>
+                <th>沒有脫水的人</th>
+            </tr>
+            <tr>
+                <td>第 1 個小時</td>
+                <td>喝 600~900 毫升的水</td>
+                <td>喝 600~900 毫升的水</td>
+            </tr>
+            <tr>
+                <td>第 2 個小時</td>
+                <td>恢復蛋白粉 1 包<br>
+                    或<br>
+                    水動能電解質液 1 包 + 300 毫升水<br>
+                    +威德能量果凍 1 包</td>
+                <td>威德能量果凍 1 包</td>
+            </tr>
+            <tr>
+                <td>第 3 個小時</td>
+                <td>電解質發泡錠 1 顆 + 300 毫升水</td>
+                <td>每隔 20~30 分鐘喝一次水</td>
+            </tr>
+            <tr>
+                <td>晚餐</td>
+                <td>吃一頓有豐富的正餐（高醣、適量蛋白質、低脂、不要蔬菜）+ <span class="highlight-red">動能*2
+                    顆</span>（或<span class="highlight-red"> B 群發泡錠*1 顆</span>）<br>
+                    <span class="highlight-red">*若吃 B 群會精神變好，睡不著者，就不吃 B 群</span></td>
+                <td>吃一頓有豐富的正餐（高醣、適量蛋白質、低脂、不要蔬菜）+ <span class="highlight-red">動能*2
+                    顆</span>（或<span class="highlight-red"> B 群發泡錠*1 顆</span>）<br>
+                    <span class="highlight-red">*若吃 B 群會精神變好，睡不著者，就不吃 B 群</span></td>
+            </tr>
+            <tr>
+                <td>一直到比賽前都要積極補充醣跟水</td>
+                <td colspan="2">但建議每餐飯前都要量體重，確保該餐吃的重量不會使體重超過量級 5%。
+                    <li>每隔 20~30 分鐘喝一次水，一直到上廁所時看到尿液清澈為止。</li>
+                    <li>每 2~4 小時可以補充一次醣類點心（建議對食物秤重）。</li>
+                </td>
+            </tr>
+            <tr>
+                <td style="background-color: #e8f5e9;"><strong>比賽日</strong></td>
+                <td colspan="2" style="background-color: #e8f5e9;">
+                    <strong><li>起床排空後量體重，確認還有多少重量可以分配給喝水跟吃早餐。
+                        早餐吃的食物要秤重，確保吃的重量不會使體重超過量級 5%。</li>
+                    <li>清晨起來需確認尿液顏色是否為淺色？<br>
+                        若還有體重空間，建議喝 300~500 毫升（0.3~0.5 公斤）的水。<br>
+                        若尿色深，確認沒有被抽到抽磅的話，還需要積極補水，每一小時喝200~300 毫升的水。</li></strong>
+                </td>
+            </tr>
+            <tr>
+                <td>早餐</td>
+                <td colspan="2">早餐以醣類跟蛋白質為主，需精準控制重量（在不超過量級 5%的重量範圍內） + 動能 2 顆（或 B 群發泡錠 1 顆）+ 補充水分</td>
+            </tr>
+            <tr>
+                <td>比賽前 30~60 分</td>
+                <td colspan="2">按照咖啡因片的試用劑量與模式，應用到比賽中。</td>
+            </tr>
+            <tr>
+                <td>比賽間</td>
+                <td colspan="2">
+                    <li>流汗量大者可事先泡好電解質水（水動能、BCAA 沖泡包或寶礦力）或會場提供的運動飲料放於場邊備用，下台後都要記得先喝一口。</li>
+                    <li>場跟場之間隔，每次可以攝取能量果凍半包~1 包（或能量果膠 1 條）。</li>  
+                    <li>上午場結束後若離下午場還有一段時間，可於賽後立即補充一包恢復蛋白粉或能量果凍 + 1 條味之素 Gold。</li>
+                    <li>賽後立即：REGO 恢復蛋白粉 1 包 +動能 2 顆（或 B 群發泡錠 1 顆）。</li>
+                </td>
+            </tr>
+            <tr>
+                <td>賽後餐</td>
+                <td colspan="2">吃一頓有豐富的正餐（高醣、適量蛋白質、低脂、<span class="highlight-red">可加蔬菜了  </span>）+ 動能 2顆 + 補充水分。</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <script>
+        function toggleNav() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+            document.querySelector('.overlay').classList.toggle('active');
+        }
+
+        // 自動生成目錄
+        function generateTOC() {
+            const toc = document.getElementById('toc');
+            const sections = document.querySelectorAll('.content-section h2');
+            
+            sections.forEach((section, index) => {
+                // 為每個章節生成唯一ID
+                const sectionId = `section-${index + 1}`;
+                section.parentElement.id = sectionId;
+                
+                // 創建目錄項目
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${sectionId}`;
+                a.textContent = section.textContent;
+                a.onclick = toggleNav; // 點擊後關閉選單
+                
+                li.appendChild(a);
+                toc.appendChild(li);
+            });
+        }
+
+        // 頁面加載完成後生成目錄
+        document.addEventListener('DOMContentLoaded', generateTOC);
+    </script>
+</body>
+</html> 

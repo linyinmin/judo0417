@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>柔道隊營養指南</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a237e; /* 深藍色，代表柔道服 */
+            --secondary-color: #2196f3; /* 亮藍色，活潑的色調 */
+            --accent-color: #ffd700; /* 金色，代表榮譽 */
+            --text-color: #333;
+            --background-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            padding: 20px;
+            padding-left: 10%;
+            padding-right: 10%;
+            position: relative;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .header h1 {
+            margin-bottom: 5px;
+            font-size: 24px;
+        }
+
+        .nav-link {
+            display: block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 10px auto;
+            width: fit-content;
+        }
+
+        .nav-link:hover {
+            background-color: var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .highlight {
+            color: var(--secondary-color);
+        }
+
+        .highlight-red {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            color: var(--secondary-color);
+            font-size: 16px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .nutritionist-info {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .nutritionist-info p {
+            margin: 5px 0;
+        }
+
+        .nav-button {
+            position: fixed;
+            right: 20px;
+            bottom: 0;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .nav-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .nav-menu.active ~ .nav-button {
+            right: 320px;
+        }
+
+        .nav-menu.active ~ .nav-button:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-menu {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: white;
+            padding: 20px;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-menu.active {
+            right: 0;
+        }
+
+        .nav-menu h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            flex-shrink: 0;
+        }
+
+        .nav-menu ul {
+            list-style-type: none;
+        }
+
+        .nav-menu li {
+            margin: 10px 0;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .content-section {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .content-section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .content-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .image-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .image-caption {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .content-grid img {
+            margin: 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 998;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        .content-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .content-table th,
+        .content-table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            color: var(--text-color);
+            word-wrap: break-word;
+            min-width: 120px;
+        }
+
+        .content-table td:first-child {
+            width: 20%;
+            font-weight: bold;
+        }
+
+        .content-table td:last-child {
+            width: 80%;
+        }
+
+        .content-table th {
+            background-color: #e3f2fd; /* 淺藍色背景 */
+            color: var(--text-color);
+        }
+
+        .content-table tr:nth-child(even) {
+            background-color: #f5f9ff; /* 更淺的藍色背景 */
+        }
+
+        .content-table tr:hover {
+            background-color: #e8f4ff; /* 懸停時的淺藍色 */
+        }
+
+        .content-table .header-row {
+            background-color: #e3f2fd; /* 淺藍色背景 */
+            color: var(--text-color);
+        }
+
+        .content-section pre {
+            white-space: pre-wrap;
+            font-family: 'Microsoft JhengHei', sans-serif;
+            line-height: 1.6;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .content-table td.highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .content-section {
+                padding: 15px;
+            }
+
+            .nav-menu {
+                width: 250px;
+                right: -250px;
+            }
+
+            .content-section img {
+                margin: 10px 0;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-table {
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .content-table th,
+            .content-table td {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .content-table td:first-child {
+                width: 35%;
+            }
+
+            .content-table td:last-child {
+                width: 65%;
+            }
+            
+            .nav-menu.active ~ .nav-button {
+                right: 280px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-table td:first-child {
+                width: 40%;
+            }
+
+            .content-table td:last-child {
+                width: 60%;
+            }
+
+        }
+
+        .content-table.three-columns td:first-child {
+            width: 20%;
+        }
+
+        .content-table.three-columns td:nth-child(2) {
+            width: 40%;
+        }
+
+        .content-table.three-columns td:last-child {
+            width: 40%;
+        }
+
+        .content-table.three-columns td:first-child {
+            width: 20%;
+        }
+
+        .content-table.three-columns td:nth-child(2) {
+            width: 40%;
+        }
+
+        .content-table.three-columns td:last-child {
+            width: 40%;
+        }
+
+        .content-table.three-columns tr:nth-child(even) {
+            background-color: #f5f9ff; /* 更淺的藍色背景 */
+        }
+
+        .content-table.three-columns tr:hover {
+            background-color: #e8f4ff; /* 懸停時的淺藍色 */
+        }
+
+        /* 為section6的表格添加特定樣式 */
+        #section6 .content-table.three-columns td:nth-child(2) {
+            background-color: #e8f5e9 !important; /* 淺綠色背景 */
+        }
+
+        #section6 .content-table.three-columns td:last-child {
+            background-color: #ffebee !important; /* 淺紅色背景 */
+        }
+
+        /* 確保懸停效果覆蓋特定顏色 */
+        #section6 .content-table.three-columns tr:hover td:nth-child(2) {
+            background-color: #d4edda !important; /* 懸停時的淺綠色 */
+        }
+
+        #section6 .content-table.three-columns tr:hover td:last-child {
+            background-color: #f8d7da !important; /* 懸停時的淺紅色 */
+        }
+
+        /* 覆蓋section6表格的斑馬紋樣式 */
+        #section6 .content-table.three-columns tr:nth-child(even) td:nth-child(2) {
+            background-color: #e8f5e9 !important; /* 淺綠色背景 */
+        }
+
+        #section6 .content-table.three-columns tr:nth-child(even) td:last-child {
+            background-color: #ffebee !important; /* 淺紅色背景 */
+        }
+
+        /* 移除section6表格的通用懸停效果 */
+        #section6 .content-table.three-columns tr:hover {
+            background-color: transparent !important;
+        }
+
+        /* 確保section6表格的標題行樣式正確 */
+        #section6 .content-table.three-columns .header-row th {
+            background-color: #e3f2fd !important; /* 淺藍色背景 */
+            color: var(--text-color) !important;
+        }
+
+        .image-cell {
+            text-align: center;
+            vertical-align: middle;
+            width: 120px;
+            padding: 10px;
+        }
+
+        .image-cell img {
+            height: auto;
+            border-radius: 8px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .image-cell .fallback-icon {
+            font-size: 48px;
+            color: var(--primary-color);
+            margin: 0 auto;
+            display: block;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+        }
+
+        .image-cell .fallback-icon:hover {
+            color: var(--secondary-color);
+        }
+
+        .content-cell {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .content-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .content-list-item {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .content-list-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+        }
+
+        .content-list-item:last-child {
+            margin-bottom: 0;
+        }
+
+
+
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>營養品指南</h1>
+        <div class="nutritionist-info">
+            <p>運動科學處 曾怡鈞營養師製  |  版本：2024/01/24</p>
+        </div>
+    </div>
+
+    <a href="index.html" class="nav-link">觀看柔道營養指南</a>
+
+    <div class="overlay" onclick="toggleNav()"></div>
+    
+    <div class="nav-menu">
+        <h2>目錄</h2>
+        <ul id="toc">
+            <!-- 目錄將由JavaScript自動生成 -->
+        </ul>
+    </div>
+
+    <button class="nav-button" onclick="toggleNav()">☰</button>
+
+    <div class="content-section" id="section1">
+        <h2>訓練期營養品使用指南</h2>
+        <div class="section-subtitle">訓練目標：提升訓練效果與恢復能力</div>
+        <table class="content-table">
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/1.jpg" alt="訓練前補充" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-dumbbell fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">訓練前補充</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">訓練前的正餐要含有醣類（全穀、水果或乳製品）。</div>
+                        <div class="content-list-item">若來不及吃正餐或仍感飢餓，訓練前半小時可吃一條。</div>
+                    </div>
+                    <span class="highlight-red">*膳食纖維含量高，不適合賽中、賽後快速能量補充。</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/2.jpg" alt="訓練中補充" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-pills fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">訓練中補充</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">訓練中每小時建議補充30~60克醣類（依訓練強度調整），例如寶礦力粉末2至4包，每包搭配200毫升水。</div>
+                        <div class="content-list-item">流汗量大者，建議水中加入水動能彌補電解質流失，2包加500毫升水，於訓練的第2個小時</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/3.jpg" alt="訓練後補充" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-capsules fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">訓練後補充</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">訓練後補充蛋白質幫助肌肉修復（乳製品或豆魚蛋肉類）。</div>
+                        <div class="content-list-item">或可於重量訓練或體能訓練後使用乳清販賣機商品。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/4.jpg" alt="增加爆發力" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-tablets fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">增加爆發力</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">建議劑量：0.03克/公斤，每日5克（1匙），運動後加入糖飲（運動飲料）中，完全攪拌至溶解後飲用。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/5.jpg" alt="增加無氧耐力" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-tablets fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">增加無氧耐力</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">每1顆膠囊為1克，建議搭配大量水分以減少副作用。</div>
+                        <div class="content-list-item">建議劑量：依體重計算攝取量（0.2 - 0.4克/公斤），建議經營養師指導後使用。賽前1-2小時將建議</div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="content-section" id="section2">
+        <h2>營養品使用指南</h2>
+        <div class="section-subtitle">營養補充品類：日常保養維護</div>
+        <table class="content-table">
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/6.jpg" alt="維生素類" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-dumbbell fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">維生素類</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">如沛：補足平時飲食不足的維生素、礦物質，一般保養每日1包，早餐飯後吃；減重節食階段或深感疲憊時每日2包，午餐、晚餐飯後服用1包。</div>
+                        <div class="content-list-item">動能：感覺身體較為疲憊時使用，三餐飯後各1顆或訓練前補充醣類後加強補充1顆。</div>
+                        <div class="content-list-item">維生素D：幫助骨骼密實，三餐飯後各2滴，滴舌下。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/7.jpg" alt="腸道功能調整" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-pills fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">腸道功能調整</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">一般保養： 每日 1 包，早餐前空腹服用。</div>
+                        <div class="content-list-item">有腸胃問題者： 每日 2 包，早上空腹1包 + 高強度訓練運動後服用1包，能幫助腸道健康與運動恢復。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/8.jpg" alt="抗氧化：減少肌肉疲勞，加速恢復" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-capsules fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">抗氧化：減少肌肉疲勞，加速恢復</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">珍珠葡萄籽膠囊：每日1-2顆，每次訓練後吃1顆。</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/9.jpg" alt="抗發炎" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-tablets fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">抗發炎</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">薑黃素：可能改善關節健康，減少運動後的肌肉痠痛與僵硬感。每日2-7顆，每次運動後服用1至3顆。</div>
+                        <div class="content-list-item">魚油：運動後或隨餐服用，平日保養每日3顆，比賽期間每日6顆。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/10.jpg" alt="減重輔助" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-dumbbell fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">減重輔助</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">綠茶素：需要控制體重者可促進脂肪代謝、延長耐力。運動前 30-60 分鐘，攝取2顆。</div>
+                        <div class="content-list-item">代餐：需短時間內減輕體重者，以1包+水220毫升，代替一頓正餐，減少飢餓感。</div>
+                    </div>
+                    <span class="highlight-red">*建議替代晚餐或之後沒有訓練規劃的前一餐。</span>
+                </td>
+            </tr>
+            <tr>
+        </table>
+    </div>
+
+    <div class="content-section" id="section3">
+        <h2>比賽期營養品使用指南</h2>
+        <div class="section-subtitle">確保賽前身體恢復水分飽和及增加能量充填</div>
+        <span class="highlight-red">★賽期營養規劃個別差異較大，建議諮詢營養師以進行個別化設計</span>
+        <table class="content-table">
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/11.jpg" alt="過磅後水分恢復" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-dumbbell fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">過磅後水分恢復</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">過磅後第1個小時先補充600~800毫升水份。</div>
+                        <div class="content-list-item">賽前脫水較多者(>3%體重)，每1錠加500毫升水，每小時1錠，連續2-4小時，直到尿液顏色恢復清澈。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/12.jpg" alt="賽前、賽中能量補充" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-pills fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">賽前、賽中能量補充</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">能量粉：每包加 600-750 毫升的水，提供醣類44克。於過磅後每1時1包，連續2小時或事前泡好於比賽間隔時飲用，建議每小時1包。</div>
+                        <div class="content-list-item">能量膠：每包提供醣類45克，建議比賽間隔每小時1包。</div>
+                        <div class="content-list-item">威德果凍：每包醣類45克，建議比賽間隔每小時1包。</div>
+                        <div class="content-list-item">味之素能量凍：每包醣類39克，建議比賽間隔每小時1包。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/13.jpg" alt="比賽後肌肉修復" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-capsules fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">比賽後肌肉修復</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">味之素Gold：賽前訓練後攝取1-2包，幫助肌肉修復。</div>
+                        <div class="content-list-item">單包乳清蛋白：所有賽程結束後攝取1包。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/14.jpg" alt="加速能量代謝" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-tablets fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">加速能量代謝</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">動能：每餐飯後各2顆；過磅後或賽前吃完醣類補充後，補充2顆。</div>
+                        <div class="content-list-item">拜維佳：每餐飯後各1顆；過磅後或賽前吃完醣類補充後，補充1顆。</div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="image-cell" rowspan="2">
+                    <img src="images/15.jpg" alt="提高專注力與反應速度、增強力量輸出" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <i class="fas fa-tablets fallback-icon" style="display: none;"></i>
+                </td>
+                <td class="content-cell">
+                    <div class="item-name">提高專注力與反應速度、增強力量輸出</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="content-cell">
+                    <div class="content-list">
+                        <div class="content-list-item">咖啡因建議劑量：3~6毫克/公斤，建議依事前測試劑量及時間使用。</div>
+                        <div class="content-list-item">咖啡因片：每片60毫克，賽前30~60分鐘攝取3~6片，可分次補充。</div>
+                        <div class="content-list-item">咖啡因雙層錠：每錠200毫克，賽前30~60分鐘1錠，後續毋須再補。</div>
+                    </div>
+                    <span class="highlight-red">*避免過量攝取 (>9 mg/kg)，可能導致焦慮、失眠、心悸或腸胃不適。</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        function toggleNav() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+            document.querySelector('.overlay').classList.toggle('active');
+        }
+
+        // 自動生成目錄
+        function generateTOC() {
+            const toc = document.getElementById('toc');
+            const sections = document.querySelectorAll('.content-section h2');
+            
+            sections.forEach((section, index) => {
+                // 為每個章節生成唯一ID
+                const sectionId = `section-${index + 1}`;
+                section.parentElement.id = sectionId;
+                
+                // 創建目錄項目
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `#${sectionId}`;
+                a.textContent = section.textContent;
+                a.onclick = toggleNav; // 點擊後關閉選單
+                
+                li.appendChild(a);
+                toc.appendChild(li);
+            });
+        }
+
+        // 頁面加載完成後生成目錄
+        document.addEventListener('DOMContentLoaded', generateTOC);
+    </script>
+</body>
+</html> 
