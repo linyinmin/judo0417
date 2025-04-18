@@ -113,6 +113,11 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
+            opacity: 50%;
+        }
+
+        .nav-button:hover {
+            opacity: 100%;
         }
 
         .back-to-top {
@@ -138,7 +143,7 @@
         }
 
         .back-to-top.visible {
-            opacity: 1;
+            opacity: 50%;
             visibility: visible;
         }
 
@@ -146,6 +151,7 @@
             background-color: var(--accent-color);
             transform: scale(1.1);
             box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+            opacity: 100%;
         }
 
         .nav-menu.active ~ .nav-button {
